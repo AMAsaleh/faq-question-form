@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أضف سؤالك</title>
+  <link href="style.css" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="container">
+    <h2 id="form-header">لم تجد إجابتك؟</h2>
+    <p class="intro">
+      يمكنك إرسال سؤالك عبر النموذج التالي، وسنقوم بإضافته إلى قسم الأسئلة الشائعة مع الإجابة المناسبة في أقرب وقت ممكن.  
+      <strong>نشكر لك مساهمتك في تحسين محتوى الموقع.</strong>
+    </p>
 
+    <form action="https://formsubmit.co/ajax/info.mahmoud.sharaby@gmail.com" method="POST" id="faq-question-form">
+      <div class="form-group">
+        <label><i data-lucide="user"></i> الاسم الكامل</label>
+        <input type="text" name="الاسم" required />
+      </div>
+      <div class="form-group">
+        <label><i data-lucide="mail"></i> البريد الإلكتروني</label>
+        <input type="email" name="البريد الإلكتروني" required />
+      </div>
+      <div class="form-group">
+        <label><i data-lucide="phone"></i> رقم الهاتف</label>
+        <input type="tel" name="رقم الهاتف" required />
+      </div>
+      <div class="form-group">
+        <label><i data-lucide="help-circle"></i> سؤالك</label>
+        <textarea name="السؤال" rows="5" required></textarea>
+      </div>
+      <button type="submit"><i data-lucide="send"></i> إرسال السؤال</button>
+    </form>
+
+    <div id="confirmation-message" class="confirmation-message" style="display:none;">
+      تم استلام سؤالك بنجاح، وسنقوم بمراجعته والإجابة عليه ضمن قسم الأسئلة الشائعة في حال كان من الأسئلة المتكررة.  
+      <br><br>
+      نشكرك على مساهمتك في تحسين محتوى الموقع وتقديم الفائدة للجميع.
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    document.getElementById("faq-question-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(response => {
+        form.style.display = "none";
+        document.getElementById("confirmation-message").style.display = "block";
+        document.getElementById("form-header").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      })
+      .catch(error => console.log(error));
+    });
+  </script>
+</body>
+</html>
